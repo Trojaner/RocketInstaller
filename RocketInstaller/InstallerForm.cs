@@ -184,7 +184,7 @@ namespace RocketInstaller
             _apiKey = GetApiKey();
             if (String.IsNullOrEmpty(_apiKey))
             {
-                MessageBox.Show("Couldn't get API key, blame it on fr34kyn01535!", "API Key error", MessageBoxButtons.OK);
+                MessageBox.Show("Couldn't get API key, please report this error!", "API Key error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 InstallationFailed("Couldn't get API Key");
                 return;
             }
