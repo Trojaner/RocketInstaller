@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Security.Permissions;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ICSharpCode.SharpZipLib.Zip;
@@ -93,7 +94,7 @@ namespace RocketInstaller
 
             if (regKey == null || regKey.GetValue("SteamPath") == null) return null;
 
-            String dir=  regKey.GetValue("SteamPath").ToString();
+            String dir = regKey.GetValue("SteamPath").ToString();
             return Directory.Exists(dir) ? dir.Replace(@"/", Sp.ToString()) : null;
         }
 
@@ -138,7 +139,7 @@ namespace RocketInstaller
             }
 
 
-            if (!IsDirectory(InstallDirectory.Text)) 
+            if (!IsDirectory(InstallDirectory.Text))
             {
                 InstallationFailed("Given path is not a directory");
                 return;
@@ -175,6 +176,7 @@ namespace RocketInstaller
             {
                 StatusNeutral("Copying files...");
                 String copyDir = installDir + serverSuffix;
+
                 CopyDirs(installDir, copyDir);
                 return;
             }
@@ -184,6 +186,7 @@ namespace RocketInstaller
 
         private async void CopyDirs(String sourceDir, String targetDir)
         {
+
             if (!Directory.Exists(targetDir))
             {
                 Directory.CreateDirectory(targetDir);
@@ -218,6 +221,7 @@ namespace RocketInstaller
             }
             _unturnedDir = targetDir;
             StartDownload();
+
         }
 
         private async void CopyFile(String source, String target)
@@ -231,7 +235,7 @@ namespace RocketInstaller
             }
         }
 
-        private static readonly String TmpDir = AppendDirectory(Path.GetTempPath(), "RocketInstaller"); 
+        private static readonly String TmpDir = AppendDirectory(Path.GetTempPath(), "RocketInstaller");
         private static readonly String RocketZipFile = AppendDirectory(TmpDir, "Rocket.zip");
         private static readonly String ExtractedDir = AppendDirectory(TmpDir, "Rocket");
 
@@ -272,13 +276,13 @@ namespace RocketInstaller
             }
             String extractedScriptsDir = AppendDirectory(ExtractedDir, "Scripts");
             String untScriptsDir = AppendDirectory(managedDir, "Scripts");
-            if (Directory.Exists(extractedScriptsDir ))
+            if (Directory.Exists(extractedScriptsDir))
             {
                 if (!Directory.Exists(untScriptsDir))
                 {
                     Directory.CreateDirectory(untScriptsDir);
                 }
-                files = Directory.GetFiles(extractedScriptsDir );
+                files = Directory.GetFiles(extractedScriptsDir);
                 foreach (String file in files)
                 {
                     String fileName = Path.GetFileName(file);
@@ -298,16 +302,16 @@ namespace RocketInstaller
                 MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
             if (dialogResult == DialogResult.Yes)
             {
-                Process.Start ("file:///" + _unturnedDir);
+                Process.Start("file:///" + _unturnedDir);
             }
-        } 
+        }
 
         private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             double bytesIn = double.Parse(e.BytesReceived.ToString());
             double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
             double percentage = bytesIn / totalBytes * 100;
-            StatusNeutral("Downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + "(" +(int) percentage + "%)");
+            StatusNeutral("Downloaded " + e.BytesReceived + " of " + e.TotalBytesToReceive + "(" + (int)percentage + "%)");
             InstallProgress.Value = int.Parse(Math.Truncate(percentage).ToString(CultureInfo.CurrentCulture));
         }
 
