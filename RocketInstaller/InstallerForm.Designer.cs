@@ -35,7 +35,7 @@ namespace RocketInstaller
             this.BrowseButton = new MetroFramework.Controls.MetroButton();
             this.InstallProgress = new MetroFramework.Controls.MetroProgressBar();
             this.StatusLabel = new MetroFramework.Controls.MetroLabel();
-            this.UseSeperateCheckBox = new MetroFramework.Controls.MetroCheckBox();
+            this.UseSeparateCheckBox = new MetroFramework.Controls.MetroCheckBox();
             this.SuspendLayout();
             // 
             // InstallButton
@@ -99,16 +99,16 @@ namespace RocketInstaller
             // 
             // UseSeperateCheckBox
             // 
-            this.UseSeperateCheckBox.AutoSize = true;
-            this.UseSeperateCheckBox.Checked = true;
-            this.UseSeperateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.UseSeperateCheckBox.Location = new System.Drawing.Point(23, 87);
-            this.UseSeperateCheckBox.Name = "UseSeperateCheckBox";
-            this.UseSeperateCheckBox.Size = new System.Drawing.Size(200, 15);
-            this.UseSeperateCheckBox.TabIndex = 7;
-            this.UseSeperateCheckBox.Text = "Use seperate installation directory";
-            this.UseSeperateCheckBox.UseSelectable = true;
-            this.UseSeperateCheckBox.UseVisualStyleBackColor = true;
+            this.UseSeparateCheckBox.AutoSize = true;
+            this.UseSeparateCheckBox.Checked = true;
+            this.UseSeparateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.UseSeparateCheckBox.Location = new System.Drawing.Point(23, 87);
+            this.UseSeparateCheckBox.Name = "UseSeparateCheckBox";
+            this.UseSeparateCheckBox.Size = new System.Drawing.Size(200, 15);
+            this.UseSeparateCheckBox.TabIndex = 7;
+            this.UseSeparateCheckBox.Text = "Install in separate directory";
+            this.UseSeparateCheckBox.UseSelectable = true;
+            this.UseSeparateCheckBox.UseVisualStyleBackColor = true;
             // 
             // InstallerForm
             // 
@@ -117,7 +117,7 @@ namespace RocketInstaller
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(300, 240);
-            this.Controls.Add(this.UseSeperateCheckBox);
+            this.Controls.Add(this.UseSeparateCheckBox);
             this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.InstallProgress);
             this.Controls.Add(this.BrowseButton);
@@ -143,7 +143,7 @@ namespace RocketInstaller
          private MetroTextBox InstallDirectory;
          private MetroProgressBar InstallProgress;
          private MetroLabel StatusLabel;
-         private MetroCheckBox UseSeperateCheckBox;
+         private MetroCheckBox UseSeparateCheckBox;
     }
 }
 

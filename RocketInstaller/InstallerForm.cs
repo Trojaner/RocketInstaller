@@ -129,7 +129,7 @@ namespace RocketInstaller
             InstallProgress.Visible = true;
             InstallProgress.ProgressBarStyle = ProgressBarStyle.Marquee;
             InstallProgress.Value = 1;
-            UseSeperateCheckBox.Enabled = false;
+            UseSeparateCheckBox.Enabled = false;
 
             if (!Directory.Exists(InstallDirectory.Text))
             {
@@ -171,7 +171,7 @@ namespace RocketInstaller
             }
 
             const string serverSuffix = " - Server";
-            if (UseSeperateCheckBox.Checked && !installDir.EndsWith(serverSuffix))
+            if (UseSeparateCheckBox.Checked && !installDir.EndsWith(serverSuffix))
             {
                 StatusNeutral("Copying files...");
                 String copyDir = installDir + serverSuffix;
