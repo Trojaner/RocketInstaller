@@ -20,7 +20,7 @@ namespace RocketInstaller
     public partial class InstallerForm : MetroForm
     {
         private static readonly char Sp = Path.DirectorySeparatorChar;
-        private const String API_KEY = "18682849-FBC3-4298-A7B6-1E4B71A60633";
+        private static String _apiKey = "";
         public InstallerForm()
         {
             //Todo: add beta option
@@ -47,6 +47,21 @@ namespace RocketInstaller
                 return;
             }
             StatusError("Steam directory not found");
+        }
+
+        private static String GetApiKey()
+        {
+            using (WebClient client = new WebClient()) 
+            {
+                string htmlCode = client.DownloadString("https://rocket.foundation/get-rocket");
+                Regex regex = new Regex("data_token=\"(.*)\"");
+                Match match = regex.Match(htmlCode);
+                if (match.Success && match.Groups.Count > 0)
+                {
+                    return match.Groups[1].ToString();
+                }
+            }
+            return null;
         }
 
         private static String AppendDirectory(String path, params String[] dirs)
@@ -165,6 +180,14 @@ namespace RocketInstaller
         private String _unturnedDir;
         private void Install()
         {
+            StatusNeutral("Getting API key...");
+            _apiKey = GetApiKey();
+            if (String.IsNullOrEmpty(_apiKey))
+            {
+                MessageBox.Show("Couldn't get API key, blame it on fr34kyn01535!", "API Key error", MessageBoxButtons.OK);
+                InstallationFailed("Couldn't get API Key");
+                return;
+            }
             String installDir = InstallDirectory.Text;
             if (installDir.EndsWith(Sp.ToString()))
             {
@@ -253,10 +276,10 @@ namespace RocketInstaller
             client.DownloadFileCompleted += DownloadFileCompleted;
             if (IsLinux())
             {
-                client.DownloadFileAsync(new Uri("http://api.rocket.foundation/linux-beta/latest/" + API_KEY), RocketZipFile);
+                client.DownloadFileAsync(new Uri("http://api.rocket.foundation/linux-beta/latest/" + _apiKey), RocketZipFile);
                 return;
             }
-            client.DownloadFileAsync(new Uri("http://api.rocket.foundation/beta/latest/" + API_KEY), RocketZipFile);
+            client.DownloadFileAsync(new Uri("http://api.rocket.foundation/beta/latest/" + _apiKey), RocketZipFile);
         }
 
         private void DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
